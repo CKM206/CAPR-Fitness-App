@@ -24,7 +24,7 @@ import { selectAllExercises } from '../../redux/features/workout/workoutExercise
 import { create_workout, selectActiveWorkout, update_workout, cancel_workout } from '../../redux/features/workout/workoutSlice';
 import { selectCompletedSets } from '../../redux/features/workout/workoutSetsSlice';
 
-const ProcessWorkout = (activeWorkout, workoutExercises, completedSets, navigation, setVisible) => {
+const ProcessWorkout = (activeWorkout, workoutExercises, completedSets, navigation) => {
 
     // Check for at Required Fields to Save a Workout!
     if (workoutExercises.length > 0 && completedSets.length > 0 && activeWorkout.title != '')
@@ -34,7 +34,18 @@ const ProcessWorkout = (activeWorkout, workoutExercises, completedSets, navigati
     }
     // If Not Show Errors
     else{
-        setVisible(true);
+        
+        return (
+            <Snackbar
+                    style={styles.snackbar}
+                    wrapperStyle={styles.snackBarWrapper}
+                    visible={visible}
+                    onDismiss={onDismissSnackBar}
+                    duration={3000}
+                >
+                    <Subheading>Please make sure to set a Title and Complete One set!</Subheading>
+                </Snackbar>
+        );
     }
 }
 
@@ -46,12 +57,6 @@ const WorkoutDetailScreen = ({ navigation, route }) => {
     const activeWorkout = useSelector(selectActiveWorkout);
     const workoutExercises = useSelector(selectAllExercises);
     const completedSets = useSelector(selectCompletedSets);
-
-    const [visible, setVisible] = React.useState(false);
-
-    const onToggleSnackBar = () => setVisible(!visible);
-
-    const onDismissSnackBar = () => setVisible(false);
 
     
     useEffect(() => {
@@ -90,7 +95,7 @@ const WorkoutDetailScreen = ({ navigation, route }) => {
                     Cancel Workout
                 </Button>
                 <Button
-                    onPress={() => ProcessWorkout(activeWorkout, workoutExercises, completedSets, navigation, setVisible)}
+                    onPress={() => ProcessWorkout(activeWorkout, workoutExercises, completedSets, navigation)}
                 >
                     Finish!
                 </Button>
@@ -136,15 +141,6 @@ const WorkoutDetailScreen = ({ navigation, route }) => {
 
                 }
             />
-            <Snackbar
-                    style={styles.snackbar}
-                    wrapperStyle={styles.snackBarWrapper}
-                    visible={visible}
-                    onDismiss={onDismissSnackBar}
-                    duration={3000}
-                >
-                    <Subheading>Please make sure to set a Title and Complete one set!</Subheading>
-            </Snackbar>
             <Portal.Host>
                 <Snackbar></Snackbar>
             </Portal.Host>

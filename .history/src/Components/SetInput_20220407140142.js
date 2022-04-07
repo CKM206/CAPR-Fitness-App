@@ -68,6 +68,8 @@ const correctDuration = (setId, durationString, dispatch, setDuration) => {
 
         minutes = minutes.toString().padStart(2, '0');
         seconds = seconds.toString().padStart(2, '0');
+        
+        if(minutes.length === 1)
 
 
         dispatch(update_set({ id: setId, changes: { duration: `${hours}:${minutes}:${seconds}` } }))

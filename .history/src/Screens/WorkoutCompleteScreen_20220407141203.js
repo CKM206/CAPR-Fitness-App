@@ -83,7 +83,7 @@ const WorkoutCompleteScreen = ({navigation, route}) => {
     console.log('New Array: ', exercises);
 
     dispatch(saveWorkout({workoutInformation: activeWorkout, exercises: exercises}))
-    //dispatch(cancel_workout(activeWorkout._id));
+    dispatch(cancel_workout(activeWorkout._id));
     return ( 
         <View>
             <Text style={{ marginTop: 50, fontSize: 24, alignSelf: 'center' }}>Congratulations!</Text>

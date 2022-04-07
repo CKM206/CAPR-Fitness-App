@@ -143,7 +143,7 @@ const WorkoutDetailScreen = ({ navigation, route }) => {
                     onDismiss={onDismissSnackBar}
                     duration={3000}
                 >
-                    <Subheading>Please make sure to set a Title and Complete one set!</Subheading>
+                    <Subheading>Please make sure to set a Title and Complete One set!</Subheading>
             </Snackbar>
             <Portal.Host>
                 <Snackbar></Snackbar>

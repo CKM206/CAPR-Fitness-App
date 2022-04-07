@@ -95,7 +95,7 @@ export const selectCompletedSets = createSelector(
 //     [selectSetIds],
 //     (sets) => sets.filter(set => props.sets.includes(set))
 // );
-//Custom Selector
+Custom Selector
 export const selectSetsOfExercise = (state, props) => {
     const setsToReturn = state.workoutSets.ids.filter(element => props.sets.includes(element))
     return setsToReturn;

@@ -17,7 +17,7 @@ import { Text, StyleSheet, View } from 'react-native';
 
 // Imports | Data Contexts
 import { useDispatch, useSelector } from 'react-redux';
-import { saveWorkout, cancel_workout } from '../redux/features/workout/workoutSlice';
+import { saveWorkout } from '../redux/features/workout/workoutSlice';
 
 // Create the WorkoutCompleteScreen Component - Deconstruct required props
 const WorkoutCompleteScreen = ({navigation, route}) => { 
@@ -38,11 +38,9 @@ const WorkoutCompleteScreen = ({navigation, route}) => {
 
         newSets = newSets.map((set) => {
 
-            console.log('SET', set)
             if (set.hasOwnProperty('distance')){
                 console.log('DISTANCE');
                 const [ hours, minutes, seconds ] = set.duration.split(':');
-
                 return ({
                     distance: set.distance,
                     duration: { hours, minutes, seconds },
@@ -82,11 +80,12 @@ const WorkoutCompleteScreen = ({navigation, route}) => {
 
     console.log('New Array: ', exercises);
 
+    //const dispatch = useDispatch();
+
     dispatch(saveWorkout({workoutInformation: activeWorkout, exercises: exercises}))
-    //dispatch(cancel_workout(activeWorkout._id));
     return ( 
         <View>
-            <Text style={{ marginTop: 50, fontSize: 24, alignSelf: 'center' }}>Congratulations!</Text>
+            <Text style={{ flex: 1, fontSize: 24, alignSelf: 'center' }}>You've Done it!</Text>
         </View>
     );
 };
