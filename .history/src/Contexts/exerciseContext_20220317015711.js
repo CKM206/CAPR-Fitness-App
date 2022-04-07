@@ -1,0 +1,104 @@
+/**
+ *  Author:   Calvin May
+ *  
+ *  Date:     03/15/2022
+ *  Purpose:  Built as apart of my CAPR Fitness App
+ *  Document: exerciseContext.js
+ *  Description: ...
+ */
+
+// Imports | 3rd Party
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Imports | Data Contexts & API
+import createDataContext from "./createDataContext";
+import fitnessApi from '../api/fitnessApi';
+
+
+// Reducer that handles Authentication State. 
+//-It handles the different actions to be performed on the state
+const exerciseReducer = (state, action) => {
+    switch (action.type) {
+        case 'edit_exercise':
+            return state.map((exercise) => {
+                return exercise._id === action.payload._id
+                ? action.payload: 
+                exercise;
+            });
+        case 'get_exercises':
+            return action.payload;
+        default:
+            return state;
+    }
+};
+
+
+/**
+ * Action Functions
+ * 
+ *   When a specific action is to be performed on the state, one of these functions will be called.
+ * These functions perform some logic, like making a request to an API, and then dispatch an
+ * action to the authReducer, which updates the state.
+ */
+
+// Get All Exercises
+ const getExercises = dispatch => {
+    return async () => {
+        try
+        {
+            // Make a Request to the API
+            const response = await fitnessApi.get('/exercises');
+            
+            // Sort the Exercises
+            const exerciseList = response.data.sort((a, b) => a.name > b.name ? 1 : -1);
+
+            // Update the ExerciseList State
+            dispatch({type: 'get_exercises', payload: exerciseList});
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }; 
+};
+
+// Add a Strength Exercise
+addExercise = (dispatch) => {
+    return async (name, exerciseType, muscles, force, equipment) => {
+
+        try
+        {
+            exercise = {
+                name: name,
+                exerciseType: exerciseType,
+                muscles: muscles,
+                force: force,
+                equipment: equipment,
+                isDefault: true,
+            };
+
+            const response = await fitnessApi.post('/exercises', exercise);
+
+            console.log('Clicked Add Exercise');
+            console.log(response);
+        }
+    catch(err) {
+        console.log(err);
+    }
+
+        //const response = await fitnessApi.post('/exercises', { param1, param2 });
+
+        
+    };
+};
+
+
+// Export the functions allowing other files to take action on the state
+//-and set default state
+export const { Provider, Context } = createDataContext(
+    // Use this Reducer
+    exerciseReducer,                        
+    {   // Action Functions for use in other Components
+        getExercises, addExercise
+    },  
+    []  
+);
